@@ -11,6 +11,23 @@
 */
 const prompt = require("prompt-sync")();
 
+const ROWS = 3;
+const COLS = 3;
+
+const SYMBOL_COUNT = {
+  "A":2,
+  "B":4,
+  "C":6,
+  "D":8
+}
+
+const SYMBOL_VALUES = {
+  "A":5,
+  "B":4,
+  "C":3,
+  "D":2
+}
+
 const deposite = () => {
   while(true){
     const depositeAmount = prompt("Enter a Deposite Amount: ");
@@ -52,7 +69,31 @@ const getBet = (balance, lines) => {
   }
 }
 
-let balance = deposite();
+const spin = () => {
+  const symbols = [];
+
+  for (const [symbol, count] of Object.entries(SYMBOL_COUNT)){
+    for(let i =0; i < count; i++){
+      symbols.push(symbol);
+    }
+  }
+  
+  const reels = [[],[],[]];
+
+  for (i = 0; i<COLS; i++){
+    const reelSymbols = [...symbols];
+
+    for(j=0; j<ROWS; j++){
+      const randomIndex = Math.floor(Math.random()*reelSymbols.length);
+      const selectedSymbol = reelSymbols[randomIndex];
+      reels[i].push(selectedSymbol);
+      reelSymbols.splice(randomIndex, 1);
+    }
+  }
+  return reels;
+};
+console.log(spin());
+/*let balance = deposite();
 const numberOfLines = getNumberOfLines();
 const bet = getBet(balance,numberOfLines);
-console.log(bet);
+console.log(bet);*/
